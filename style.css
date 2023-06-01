@@ -25,7 +25,7 @@ h2 {
   color: #333;
 }
 
-#number-container {
+#circle-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,21 +34,26 @@ h2 {
   margin: 0 auto;
 }
 
-.number {
-  width: 80px;
-  height: 80px;
+.circle {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin: 10px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-  font-size: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.number:hover {
+.circle:hover {
   transform: scale(1.2);
+}
+
+#reset-button {
+  margin-top: 20px;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
 }
 
 footer {
@@ -58,28 +63,5 @@ footer {
   text-align: center;
   font-size: 12px;
 }
-/* Existing CSS code */
 
-#timer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 24px;
-}
 
-#leaderboard {
-  width: 200px;
-  margin-top: 20px;
-}
-
-#leaderboard h2 {
-  text-align: center;
-}
-
-#leaderboard-list {
-  padding: 0;
-}
-
-#leaderboard-list li {
-  list-style: none;
-  margin-bottom: 10px;
-}
