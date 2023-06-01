@@ -58,3 +58,28 @@ footer {
   text-align: center;
   font-size: 12px;
 }
+/* Existing CSS code */
+
+#timer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 24px;
+}
+
+#leaderboard {
+  width: 200px;
+  margin-top: 20px;
+}
+
+#leaderboard h2 {
+  text-align: center;
+}
+
+#leaderboard-list {
+  padding: 0;
+}
+
+#leaderboard-list li {
+  list-style: none;
+  margin-bottom: 10px;
+}
