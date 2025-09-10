@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (circles.length === 0) {
       clearInterval(timerInterval);
       setTimeout(function() {
-        const playerName = prompt('Congratulations! You clicked all the circles!\nEnter your name for the leaderboard:');
+        const playerName = prompt('Congratulations! You are supercalifragilistic!\nEnter your name for the leaderboard:');
         if (playerName) {
           addToLeaderboard(playerName, score);
           updateLeaderboard();
