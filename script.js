@@ -1,88 +1,78 @@
+javascript
 document.addEventListener('DOMContentLoaded', function() {
-  const circleContainer = document.getElementById('circle-container');
-  const timerValue = document.getElementById('timer-value');
-  const leaderboardList = document.getElementById('leaderboard-list');
+    const container = document.getElementById('circle-container');
+    const display = document.getElementById('timer');
+    const list = document.getElementById('leaderboard-list');
 
-  let score = 0;
-  let time = 0;
-  let timerInterval;
+    let time = 0;
+    let timerInterval;
+    let gameStarted = false;
 
-  function createCircle() {
-    const circle = document.createElement('div');
-    circle.classList.add('circle');
-    const randomColor = getRandomColor();
-    circle.style.backgroundColor = randomColor;
+    function createCircle() {
+        const div = document.createElement('div');
+        div.className = 'circle';
 
-    circle.addEventListener('click', function() {
-      circle.remove();
-      score++;
-      checkWinCondition();
-    });
+        // Random pink aesthetic colors
+        const colors = ['#ffc1e3', '#ff85a1', '#f7aef8', '#d63384'];
+        div.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 
-    return circle;
-  }
-
-  function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+        div.onclick = function() {
+            if (!gameStarted) {
+                gameStarted = true;
+                startTimer();
+            }
+            div.remove();
+            checkWin();
+        };
+        return div;
     }
-    return color;
-  }
 
-  function checkWinCondition() {
-    const circles = circleContainer.getElementsByClassName('circle');
-    if (circles.length === 0) {
-      clearInterval(timerInterval);
-      setTimeout(function() {
-        const playerName = prompt('Congratulations! You are okay at doing work!\nEnter your name for the leaderboard:');
-        if (playerName) {
-          addToLeaderboard(playerName, score);
-          updateLeaderboard();
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            time++;
+            display.innerText = time + "s";
+        }, 1000);
+    }
+
+    function checkWin() {
+        if (container.getElementsByClassName('circle').length === 0) {
+            clearInterval(timerInterval);
+            setTimeout(() => {
+                const name = prompt(`Speedy! You finished in ${time} seconds. Enter your name:`);
+                if (name) {
+                    saveScore(name, time);
+                }
+                reset();
+            }, 100);
         }
-        resetGame();
-      }, 200);
     }
-  }
 
-  function addToLeaderboard(playerName, playerScore) {
-    const leaderboardEntry = document.createElement('li');
-    leaderboardEntry.textContent = `${playerName}: ${playerScore}`;
-    leaderboardList.appendChild(leaderboardEntry);
-  }
-
-  function updateLeaderboard() {
-    const leaderboardEntries = leaderboardList.getElementsByTagName('li');
-    const sortedEntries = Array.from(leaderboardEntries).sort((a, b) => {
-      const scoreA = parseInt(a.textContent.split(': ')[1]);
-      const scoreB = parseInt(b.textContent.split(': ')[1]);
-      return scoreB - scoreA;
-    });
-    leaderboardList.innerHTML = '';
-    sortedEntries.forEach(entry => leaderboardList.appendChild(entry));
-  }
-
-  function startTimer() {
-    timerInterval = setInterval(function() {
-      time++;
-      timerValue.textContent = time;
-    }, 1000);
-  }
-
-  function resetGame() {
-    score = 0;
-    time = 0;
-    timerValue.textContent = time;
-    circleContainer.innerHTML = '';
-    clearInterval(timerInterval);
-    startTimer();
-
-    for (let i = 0; i < 10; i++) {
-      const circle = createCircle();
-      circleContainer.appendChild(circle);
+    function saveScore(name, finalTime) {
+        const li = document.createElement('li');
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+        li.innerHTML = `${name} <span class="badge bg-danger rounded-pill">${finalTime}s</span>`;
+        list.appendChild(li);
+        sortScores();
     }
-  }
 
-  resetGame();
+    function sortScores() {
+        const items = Array.from(list.getElementsByTagName('li'));
+        items.sort((a, b) => {
+            return parseInt(a.querySelector('span').innerText) - parseInt(b.querySelector('span').innerText);
+        });
+        list.innerHTML = "";
+        items.forEach(i => list.appendChild(i));
+    }
+
+    function reset() {
+        time = 0;
+        gameStarted = false;
+        display.innerText = "0s";
+        container.innerHTML = "";
+        for (let i = 0; i < 10; i++) {
+            container.appendChild(createCircle());
+        }
+    }
+
+    reset();
 });
